@@ -1,0 +1,11 @@
+.eslintrc
+.stylelintrc.json
+composer.json
+.DS_Store
+phpcs.xml.dist
+postcss.config.js
+../../../../../../../Users/louis/Sites/wordpressCoursIUT/wp-content/themes/iut/tailwind.config.js
+../../../../../../../Users/louis/Sites/wordpressCoursIUT/wp-content/themes/iut/vite.base.config.js
+../../../../../../../Users/louis/Sites/wordpressCoursIUT/wp-content/themes/iut/vite.config.js
+../../../../../../../Users/louis/Sites/wordpressCoursIUT/wp-content/themes/iut/vite.frontend.config.js
+yarn.lock
