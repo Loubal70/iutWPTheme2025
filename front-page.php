@@ -75,59 +75,74 @@
             </div>
         </section>
 
-        <section class="relative testimonials max-w-5xl mx-auto py-20">
-            <div class="flex flex-col lg:flex-row justify-between mb-20">
-                <h2 class="lg:w-1/4 mb-0">Trusted by the best in the business</h2>
-            </div>
+        <?php
+        $testimonials = new WP_Query([
+            'post_type' => 'testimonial',
+            'post_status' => 'publish',
+            'posts_per_page' => 5,
+            'tax_query' => array(
+                // Première possibilité : Je recherche les témoignages qui ont un type égal à "test"
+                array (
+                    'taxonomy' => 'type',
+                    'field' => 'slug',
+                    'terms' => 'test',
+                ),
+                // Deuxième possibilité : Je recherche les témoignages qui n'ont pas de type
+//                    array (
+//                        'taxonomy' => 'type',
+//                        'operator' => 'NOT EXISTS'
+//                    )
+            ),
+        ]);
+        //die(var_dump($testimonials->posts));
+        ?>
 
-            <?php
-                $testimonials = new WP_Query([
-                    'post_type' => 'testimonial',
-                    'post_status' => 'publish',
-                    'posts_per_page' => 5,
-                ]);
-                //die(var_dump($testimonials->posts));
-            ?>
-
-            <?php if(!empty($testimonials->posts)): ?>
-                <div x-data="Testimonials" class="overflow-x-clip">
-                    <div class="swiper-wrapper">
-                        <?php foreach($testimonials->posts as $testimonial): ?>
-
-                        <?php
-                            $author = get_field('author', $testimonial->ID);
-                            $authorStatus = get_field('author_status', $testimonial->ID);
-                        ?>
-
-                        <?php //die(var_dump($testimonial)); ?>
-
-                            <div class="swiper-slide relative bg-white drop-shadow-customcard rounded-2xl p-8 pt-12">
-<!--                                <img src="--><?php //echo get_stylesheet_directory_uri(); ?><!--/assets/img/001_img_person_1.png"-->
-<!--                                     class="">-->
-
-                                <?php echo get_the_post_thumbnail($testimonial->ID, 'full', [
-                                    'class' => 'absolute -top-7 left-7 w-14 h-14 object-cover rounded-full',
-                                ]); ?>
-
-                                <p class="mb-4">
-                                    <?php echo $testimonial->post_content; ?>
-                                </p>
-
-                                <div>
-                                    <span class="text-base block font-medium leading-none">
-                                        <?php echo $author; ?>
-                                    </span>
-                                    <span class="text-gray text-sm">
-                                        <?php echo $authorStatus; ?>
-                                    </span>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                    <div class="swiper-pagination"></div>
+        <?php if(!empty($testimonials->posts)): ?>
+            <section class="relative testimonials max-w-5xl mx-auto py-20">
+                <div class="flex flex-col lg:flex-row justify-between mb-20">
+                    <h2 class="lg:w-1/4 mb-0">Trusted by the best in the business</h2>
                 </div>
-            <?php endif; ?>
-        </section>
+
+
+
+                    <div x-data="Testimonials" class="overflow-x-clip">
+                        <div class="swiper-wrapper">
+                            <?php foreach($testimonials->posts as $testimonial): ?>
+
+                            <?php
+                                $author = get_field('author', $testimonial->ID);
+                                $authorStatus = get_field('author_status', $testimonial->ID);
+                            ?>
+
+                            <?php //die(var_dump($testimonial)); ?>
+
+                                <div class="swiper-slide relative bg-white drop-shadow-customcard rounded-2xl p-8 pt-12">
+    <!--                                <img src="--><?php //echo get_stylesheet_directory_uri(); ?><!--/assets/img/001_img_person_1.png"-->
+    <!--                                     class="">-->
+
+                                    <?php echo get_the_post_thumbnail($testimonial->ID, 'full', [
+                                        'class' => 'absolute -top-7 left-7 w-14 h-14 object-cover rounded-full',
+                                    ]); ?>
+
+                                    <p class="mb-4">
+                                        <?php echo $testimonial->post_content; ?>
+                                    </p>
+
+                                    <div>
+                                        <span class="text-base block font-medium leading-none">
+                                            <?php echo $author; ?>
+                                        </span>
+                                        <span class="text-gray text-sm">
+                                            <?php echo $authorStatus; ?>
+                                        </span>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+            </section>
+        <?php endif; ?>
 
         <section class="bg-primary py-10 text-white">
             <div class="max-w-5xl mx-auto grid lg:grid-cols-4 gap-4 lg:divide-x divide-background/25">

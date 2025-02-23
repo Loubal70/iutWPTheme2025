@@ -230,7 +230,7 @@ function create_testimonial_post_type() {
         'labels'              => $labels,
         'description'         => 'Témoignages clients',
         'public'              => true,
-        'menu_icon'           => 'dashicons-format-quote',
+        'menu_icon'           => 'dashicons-admin-site',
         'menu_position'       => 5,
         'supports'            => array('title', 'editor', 'thumbnail', 'excerpt'),
         'has_archive'         => true,
@@ -239,7 +239,54 @@ function create_testimonial_post_type() {
 
     // Enregistrement du post type
     register_post_type('testimonial', $args);
+
+    // Créé une taxonomy nommé "type" pour le post type "testimonial"
+    register_taxonomy( 'type', 'testimonial', [
+        'labels'        => array(
+            'name'                        => _x( 'Types', 'iut' ),
+            'singular_name'               => _x( 'Type', 'iut' ),
+            'menu_name'                   => __( 'Types' ),
+        ),
+    ] );
+
 }
 
 // Hook pour appeler la fonction lors de l'initialisation de WordPress
 add_action('init', 'create_testimonial_post_type');
+
+
+
+// Fonction pour créer le custom post type "Témoignage"
+function create_services_post_type() {
+    // Labels pour le post type
+    $labels = array(
+        'name'               => 'Services',
+        'singular_name'      => 'Service',
+        'menu_name'          => 'Services',
+        'add_new'            => 'Ajouter un service',
+        'add_new_item'       => 'Ajouter un service',
+        'edit_item'          => 'Modifier le service',
+        'new_item'           => 'Nouveau service',
+        'view_item'          => 'Voir le service',
+        'view_items'         => 'Voir les services',
+        'search_items'       => 'Rechercher des services',
+        'not_found'          => 'Aucun service trouvé',
+        'not_found_in_trash' => 'Aucun service trouvé dans la corbeille',
+    );
+    // Arguments pour le post type
+    $args = array(
+        'label'               => 'Services',
+        'labels'              => $labels,
+        'description'         => 'Services',
+        'public'              => true,
+        'menu_icon'           => 'dashicons-menu',
+        'menu_position'       => 6,
+        'supports'            => array('title', 'editor', 'thumbnail', 'excerpt'),
+        'has_archive'         => false,
+        'rewrite'             => array('slug' => 'services'),
+    );
+    // Enregistrement du post type
+    register_post_type('services', $args);
+}
+// Hook pour appeler la fonction lors de l'initialisation de WordPress
+add_action('init', 'create_services_post_type');
